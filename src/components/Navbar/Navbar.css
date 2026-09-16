@@ -460,3 +460,61 @@
     cursor: pointer;
   }
 }
+/* ==============================
+   BLOG NAVBAR BUTTON
+============================== */
+
+.nav-blog {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 16px;
+  margin-left: 6px;
+
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+.nav-blog:hover {
+  color: #fff;
+
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.25),
+    rgba(139, 92, 246, 0.25)
+  );
+
+  border-color: rgba(99, 102, 241, 0.6);
+
+  box-shadow:
+    0 0 15px rgba(59, 130, 246, 0.25),
+    inset 0 0 10px rgba(139, 92, 246, 0.08);
+
+  transform: translateY(-1px);
+}
+
+/* Active */
+.nav-blog.active {
+  color: #fff;
+
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.3),
+    rgba(139, 92, 246, 0.3)
+  );
+
+  border-color: rgba(99, 102, 241, 0.7);
+}
