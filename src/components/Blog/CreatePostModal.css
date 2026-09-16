@@ -1,0 +1,737 @@
+/* =========================================================
+   CREATE POST OVERLAY
+========================================================= */
+
+.create-post-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(2, 4, 10, 0.82);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  animation: createOverlayIn 0.22s ease;
+}
+
+@keyframes createOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.create-post-modal {
+  position: relative;
+
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  padding: 30px;
+
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  border-radius: 22px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(124, 58, 237, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #111522,
+      #070910
+    );
+
+  box-shadow:
+    0 35px 100px rgba(0, 0, 0, 0.72),
+    0 0 50px rgba(109, 40, 217, 0.08);
+
+  animation: createModalIn 0.28s ease;
+}
+
+@keyframes createModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================================================
+   MODAL SCROLLBAR
+========================================================= */
+
+.create-post-modal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.create-post-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.create-post-modal::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.create-post-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 28px;
+}
+
+.create-post-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #a78bfa;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 2.5px;
+}
+
+.create-post-header h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 27px;
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
+}
+
+.create-post-header p {
+  margin: 7px 0 0;
+
+  color: #747d90;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.create-post-close {
+  flex-shrink: 0;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  color: #8f97a8;
+
+  font-size: 23px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.create-post-close:hover {
+  color: #ffffff;
+
+  background: rgba(239, 68, 68, 0.12);
+
+  border-color: rgba(239, 68, 68, 0.25);
+
+  transform: rotate(90deg);
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.create-form-group {
+  margin-bottom: 20px;
+}
+
+.create-form-group > label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #d8dce5;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.create-form-group input[type="text"],
+.create-form-group input[type="url"],
+.create-form-group textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  outline: none;
+
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.create-form-group input[type="text"],
+.create-form-group input[type="url"] {
+  height: 48px;
+
+  padding: 0 14px;
+}
+
+.create-form-group textarea {
+  min-height: 125px;
+
+  padding: 13px 14px;
+
+  resize: vertical;
+
+  line-height: 1.6;
+}
+
+.create-form-group input[type="text"]:focus,
+.create-form-group input[type="url"]:focus,
+.create-form-group textarea:focus {
+  border-color: rgba(139, 92, 246, 0.65);
+
+  background: rgba(139, 92, 246, 0.035);
+
+  box-shadow:
+    0 0 0 3px rgba(139, 92, 246, 0.08),
+    0 0 20px rgba(124, 58, 237, 0.05);
+}
+
+.create-form-group input::placeholder,
+.create-form-group textarea::placeholder {
+  color: #555e70;
+}
+
+
+/* =========================================================
+   URL HINT
+========================================================= */
+
+.input-hint {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #687184;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FILE UPLOAD BOX
+========================================================= */
+
+.file-upload-box {
+  position: relative;
+
+  width: 100%;
+}
+
+.file-upload-box input[type="file"] {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   FILE SELECT LABEL
+========================================================= */
+
+.file-select-label {
+  min-height: 85px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  box-sizing: border-box;
+
+  padding: 15px;
+
+  border: 1px dashed rgba(139, 92, 246, 0.3);
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 58, 237, 0.055),
+      rgba(37, 99, 235, 0.025)
+    );
+
+  color: #aeb5c4;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.file-select-label:hover {
+  border-color: rgba(139, 92, 246, 0.65);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 58, 237, 0.11),
+      rgba(37, 99, 235, 0.05)
+    );
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   UPLOAD ICON
+========================================================= */
+
+.upload-icon {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: rgba(139, 92, 246, 0.13);
+
+  color: #a78bfa;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.file-select-label > span:not(.upload-icon) {
+  color: #c5c9d4;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.file-select-label small {
+  color: #626b7c;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   SELECTED IMAGE
+========================================================= */
+
+.selected-image {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 10px;
+
+  padding: 9px;
+
+  border: 1px solid rgba(139, 92, 246, 0.14);
+  border-radius: 11px;
+
+  background: rgba(139, 92, 246, 0.045);
+}
+
+.selected-image img {
+  width: 65px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  object-fit: cover;
+
+  border-radius: 7px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.selected-image-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.selected-image-info strong {
+  overflow: hidden;
+
+  color: #d5d9e2;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.selected-image-info span {
+  color: #70798a;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   SELECTED PDF
+========================================================= */
+
+.selected-pdf {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 10px;
+
+  padding: 10px;
+
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  border-radius: 11px;
+
+  background: rgba(168, 85, 247, 0.045);
+}
+
+.pdf-icon {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: rgba(239, 68, 68, 0.1);
+
+  color: #f87171;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+}
+
+.selected-pdf-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.selected-pdf-info strong {
+  overflow: hidden;
+
+  color: #d5d9e2;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.selected-pdf-info span {
+  color: #70798a;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.create-post-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 28px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+========================================================= */
+
+.create-cancel-btn {
+  min-width: 95px;
+
+  padding: 11px 17px;
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  color: #9ba3b3;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.create-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.075);
+
+  border-color: rgba(255, 255, 255, 0.15);
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.create-submit-btn {
+  min-width: 125px;
+
+  padding: 11px 18px;
+
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c3aed,
+      #4f46e5
+    );
+
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 25px rgba(79, 70, 229, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.create-submit-btn:hover {
+  transform: translateY(-2px);
+
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 12px 32px rgba(79, 70, 229, 0.3);
+}
+
+.create-submit-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .create-post-overlay {
+    padding: 15px;
+  }
+
+  .create-post-modal {
+    max-height: 92vh;
+
+    padding: 24px;
+
+    border-radius: 18px;
+  }
+
+  .create-post-header h2 {
+    font-size: 24px;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .create-post-overlay {
+    padding: 8px;
+  }
+
+  .create-post-modal {
+    max-height: 94vh;
+
+    padding: 20px;
+
+    border-radius: 16px;
+  }
+
+  .create-post-header {
+    margin-bottom: 22px;
+  }
+
+  .create-post-header h2 {
+    font-size: 22px;
+  }
+
+  .create-post-header p {
+    font-size: 12px;
+  }
+
+  .create-post-close {
+    width: 34px;
+    height: 34px;
+
+    font-size: 20px;
+  }
+
+  .create-form-group {
+    margin-bottom: 17px;
+  }
+
+  .create-form-group input[type="text"],
+  .create-form-group input[type="url"] {
+    height: 45px;
+  }
+
+  .create-form-group textarea {
+    min-height: 110px;
+  }
+
+  .file-select-label {
+    min-height: 78px;
+  }
+
+  .create-post-actions {
+    flex-direction: column-reverse;
+
+    gap: 8px;
+  }
+
+  .create-cancel-btn,
+  .create-submit-btn {
+    width: 100%;
+  }
+}
