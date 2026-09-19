@@ -1,17 +1,13 @@
 const API_URL = "http://localhost:3008/blog";
 
-/* ========================================
-   GET TOKEN
-======================================== */
+
 
 const getToken = () => {
   return localStorage.getItem("token");
 };
 
 
-/* ========================================
-   HANDLE RESPONSE
-======================================== */
+
 
 const handleResponse = async (response) => {
   const contentType = response.headers.get("content-type");
@@ -42,9 +38,7 @@ const handleResponse = async (response) => {
 };
 
 
-/* ========================================
-   COMMON REQUEST
-======================================== */
+
 
 const apiRequest = async (url, options = {}) => {
   const token = getToken();
@@ -66,9 +60,7 @@ const apiRequest = async (url, options = {}) => {
 };
 
 
-/* ========================================
-   GET ALL POSTS
-======================================== */
+
 
 export const getPosts = async () => {
   return apiRequest(API_URL, {
@@ -77,9 +69,7 @@ export const getPosts = async () => {
 };
 
 
-/* ========================================
-   GET SINGLE POST
-======================================== */
+
 
 export const getPostById = async (id) => {
   return apiRequest(`${API_URL}/${id}`, {
@@ -88,9 +78,8 @@ export const getPostById = async (id) => {
 };
 
 
-/* ========================================
-   CREATE POST
-======================================== */
+
+
 
 export const createPost = async (postData) => {
   return apiRequest(API_URL, {
@@ -98,14 +87,16 @@ export const createPost = async (postData) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(postData),
+    body: JSON.stringify({
+      title: postData.title,
+      description: postData.description,
+      url: postData.url,
+    }),
   });
 };
 
 
-/* ========================================
-   UPDATE POST
-======================================== */
+
 
 export const updatePost = async (id, postData) => {
   return apiRequest(`${API_URL}/${id}`, {
@@ -113,14 +104,42 @@ export const updatePost = async (id, postData) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(postData),
+    body: JSON.stringify({
+      title: postData.title,
+      description: postData.description,
+      url: postData.url,
+    }),
   });
 };
 
 
-/* ========================================
-   DELETE POST
-======================================== */
+
+
+export const uploadImage = async (imageFile) => {
+  const formData = new FormData();
+
+  formData.append("image", imageFile);
+
+  return apiRequest(`${API_URL}/upload`, {
+    method: "POST",
+    body: formData,
+  });
+};
+
+
+
+export const uploadPdf = async (pdfFile) => {
+  const formData = new FormData();
+
+  formData.append("pdf", pdfFile);
+
+  return apiRequest(`${API_URL}/upload`, {
+    method: "POST",
+    body: formData,
+  });
+};
+
+
 
 export const deletePost = async (id) => {
   return apiRequest(`${API_URL}/${id}`, {
@@ -129,15 +148,15 @@ export const deletePost = async (id) => {
 };
 
 
-/* ========================================
-   EXPORT DEFAULT
-======================================== */
+
 
 const blogApi = {
   getPosts,
   getPostById,
   createPost,
   updatePost,
+  uploadImage,
+  uploadPdf,
   deletePost,
 };
 

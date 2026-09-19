@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./CreatePostModal.css";
 
+import {
+  uploadImage,
+  uploadPdf,
+} from "../../api/blogApi"; // apne actual blogApi path ke according change karo
+
 const CreatePostModal = ({
   isOpen,
   onClose,
@@ -14,6 +19,9 @@ const CreatePostModal = ({
     image: null,
     pdf: null,
   });
+
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingPdf, setUploadingPdf] = useState(false);
 
   // ==============================
   // EDIT DATA LOAD
@@ -53,10 +61,10 @@ const CreatePostModal = ({
   };
 
   // ==============================
-  // IMAGE
+  // IMAGE + API
   // ==============================
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -66,27 +74,54 @@ const CreatePostModal = ({
       return;
     }
 
-    const reader = new FileReader();
+    try {
+      setUploadingImage(true);
 
-    reader.onloadend = () => {
+    
+
+      const response = await uploadImage(file);
+
+      console.log("Image uploaded:", response);
+
+      // Local preview
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setForm((prev) => ({
+          ...prev,
+          image: {
+            name: file.name,
+            type: file.type,
+            data: reader.result,
+
+            // Backend response
+            url:
+              response?.url ||
+              response?.imageUrl ||
+              response?.data?.url ||
+              null,
+          },
+        }));
+      };
+
+      reader.readAsDataURL(file);
+
+    } catch (error) {
+      console.error("Image upload error:", error);
+      alert(error.message || "Image upload failed.");
+
       setForm((prev) => ({
         ...prev,
-        image: {
-          name: file.name,
-          type: file.type,
-          data: reader.result,
-        },
+        image: null,
       }));
-    };
-
-    reader.readAsDataURL(file);
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
-  // ==============================
-  // PDF
-  // ==============================
+  
 
-  const handlePdfChange = (e) => {
+  const handlePdfChange = async (e) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -96,20 +131,43 @@ const CreatePostModal = ({
       return;
     }
 
-    const reader = new FileReader();
+    try {
+      setUploadingPdf(true);
 
-    reader.onloadend = () => {
+      // ==============================
+      // PDF API CALL
+      // ==============================
+
+      const response = await uploadPdf(file);
+
+      console.log("PDF uploaded:", response);
+
       setForm((prev) => ({
         ...prev,
         pdf: {
           name: file.name,
           type: file.type,
-          data: reader.result,
+
+          // Backend response
+          url:
+            response?.url ||
+            response?.pdfUrl ||
+            response?.data?.url ||
+            null,
         },
       }));
-    };
 
-    reader.readAsDataURL(file);
+    } catch (error) {
+      console.error("PDF upload error:", error);
+      alert(error.message || "PDF upload failed.");
+
+      setForm((prev) => ({
+        ...prev,
+        pdf: null,
+      }));
+    } finally {
+      setUploadingPdf(false);
+    }
   };
 
   // ==============================
@@ -174,7 +232,6 @@ const CreatePostModal = ({
         ========================== */}
 
         <div className="create-post-header">
-
           <div>
             <span className="create-post-label">
               BLOG
@@ -196,9 +253,8 @@ const CreatePostModal = ({
             className="create-post-close"
             onClick={handleClose}
           >
-            ×
+            
           </button>
-
         </div>
 
         {/* ==========================
@@ -210,7 +266,6 @@ const CreatePostModal = ({
           {/* TITLE */}
 
           <div className="create-form-group">
-
             <label htmlFor="post-title">
               Title
             </label>
@@ -223,13 +278,11 @@ const CreatePostModal = ({
               onChange={handleChange}
               placeholder="Enter your post title"
             />
-
           </div>
 
           {/* DESCRIPTION */}
 
           <div className="create-form-group">
-
             <label htmlFor="post-description">
               Description
             </label>
@@ -242,13 +295,11 @@ const CreatePostModal = ({
               placeholder="Write something about your post..."
               rows={5}
             />
-
           </div>
 
           {/* URL */}
 
           <div className="create-form-group">
-
             <label htmlFor="post-url">
               URL
             </label>
@@ -266,7 +317,6 @@ const CreatePostModal = ({
               You can add YouTube, Facebook or any
               other website URL.
             </span>
-
           </div>
 
           {/* IMAGE */}
@@ -284,6 +334,7 @@ const CreatePostModal = ({
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
+                disabled={uploadingImage}
               />
 
               <label
@@ -295,7 +346,9 @@ const CreatePostModal = ({
                 </span>
 
                 <span>
-                  Choose an image
+                  {uploadingImage
+                    ? "Uploading..."
+                    : "Choose an image"}
                 </span>
 
                 <small>
@@ -322,7 +375,9 @@ const CreatePostModal = ({
                   </strong>
 
                   <span>
-                    Image selected
+                    {uploadingImage
+                      ? "Uploading image..."
+                      : "Image uploaded"}
                   </span>
 
                 </div>
@@ -347,6 +402,7 @@ const CreatePostModal = ({
                 type="file"
                 accept=".pdf,application/pdf"
                 onChange={handlePdfChange}
+                disabled={uploadingPdf}
               />
 
               <label
@@ -358,12 +414,15 @@ const CreatePostModal = ({
                 </span>
 
                 <span>
-                  Choose a PDF
+                  {uploadingPdf
+                    ? "Uploading..."
+                    : "Choose a PDF"}
                 </span>
 
                 <small>
                   PDF documents only
                 </small>
+
               </label>
 
             </div>
@@ -384,7 +443,9 @@ const CreatePostModal = ({
                   </strong>
 
                   <span>
-                    PDF selected
+                    {uploadingPdf
+                      ? "Uploading PDF..."
+                      : "PDF uploaded"}
                   </span>
 
                 </div>
@@ -411,6 +472,7 @@ const CreatePostModal = ({
             <button
               type="submit"
               className="create-submit-btn"
+              disabled={uploadingImage || uploadingPdf}
             >
               {editingPost
                 ? "Update Post"
